@@ -80,7 +80,6 @@ void sr_handlepacket(struct sr_instance* sr,
 
   printf("*** -> Received packet of length %d \n",len);
 
-  /* fill in code here */
   int sizeOfHeader = sizeof(sr_ethernet_hdr_t);
   int breakOut = 1;
   int store = 0;
