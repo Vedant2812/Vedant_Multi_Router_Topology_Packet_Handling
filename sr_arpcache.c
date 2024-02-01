@@ -12,8 +12,7 @@
 #include "sr_protocol.h"
 #include "sr_utils.h"
 
-void sr_arpcache_sweepreqs(struct sr_instance *sr) { 
-    /* 	Fill this in */
+void sr_arpcache_sweepreqs(struct sr_instance *sr) {
     struct sr_arpreq* arp_walker = sr->cache.requests;
     struct sr_arpreq* arp1;
 
