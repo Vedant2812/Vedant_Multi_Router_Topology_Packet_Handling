@@ -1,6 +1,41 @@
-# CSE123
+# Multi-router Topology Packet Handling
 
-Before submitting, put your name and PID here. Vedant H. Goradia A15993958
+## Vedant H. Goradia
 
-Also, please describe your solution here - describe at a high level how your code works and what each major function does.
-For this assignment, I only made changes to two files majorly, sr_arpcache.c and sr_router.c. Apart from creating additional structs to help me with my implementation. In sr_arpcache.c, I made changes to sr_arpcache_sweepreqs(), here I only iterated through the cache requests and delegated the rest of the work in a helper function called handle_arpreq(). These functions together are used to ensure that the ARP requests are sent correctly. These requests are sent every second, but we want to make sure that we do not just keep sending ARP requests. So here, we make sure that an ARP request is sent a maximum of 5 ARP requests, else we send an ICMP host unreachable code in the ICMP header to indicate that an error has occured. Over here, I spent a lot of time bedugging one error that was due my lack of attention while reading the implementation. The implementation mentioned that we should save the next pointer in the linked list we are traversing before. I debugged this through the help of the OH held Tuesday and got my sr_arpcache_sweepreqs() working correctly. The other file I worked on in sr_router.c, specifically the sr_handlepacket() function. I didn't make use of any helper functions here, first I do tests to ensure that if there is an error, the packet is dropped. Together, using the two files I was able to handle ARP requests and replies, ICMP messages and responses, and ensure proper connection and functionality between the client and the server. I broke down the task into two seperate parts based on the specification for sr_router.c. If the frame is headed for an IP belonging to the rourter's interfaces, an ICMP error is used, else we do a sanity check using the breakOut variable, before forwarding, we decrement TTL. We sned an ARP request, wait for and handle an ARP response, and if we do not get an error shown by an ICMP code then we forward the packet, if not an ICMP host unreachable is sent to the source. Creating Headers, and filling in the fields was a major part of this assignment and I ensured to do the memory management for these. All communication is done through the headers, which is why I think they were this important for my implementation. It was hard to do testing, but the print functions helped a lot. In this submission, I added the extra functionality, building on the previous PA in the following manner: the handling of traceroutes was done so that we can see the path of the packets being transmitted. This time we were allowed to access the ARP cache and use the lookup() function, which is what I did to get the desired functionality. The additional ICMP functionality was pretty easy. What I did was use the methodology used earlier in order to create ICHeaders that I woud use and just update the icmp fields within the header to match the error and indicate that some error has occurred. Another thing that was ensured was the multi-router toplogy handling, wherein the packet transmission protocol was extended over a more complex topology as compared to what we wer dealing with last PA. Overall, the new code written was pretty similar to what we had done in the previous PA, I built on top of the last PA, using the code as starter code for my current PA. All changes were still kept to sr_arpcache.c and sr_router.c to acheive the functionality required for this PA 
+# Project Overview
+
+## Description
+
+This project involves enhancing the functionality of a router implementation, focusing on handling ARP requests and replies, ICMP messages and responses, and ensuring proper communication between clients and servers. Additionally, structs were introduced to aid in the implementation.
+
+## Some Explanations
+
+### sr_arpcache.c
+- **sr_arpcache_sweepreqs():**
+  - Iterated through cache requests and delegated the rest of the work to a helper function called `handle_arpreq()`.
+  - Implemented a limit of 5 ARP requests per second, sending an ICMP host unreachable code if the limit is reached.
+  - Debugged issues related to saving the next pointer in the linked list before traversal.
+
+### sr_router.c
+- **sr_handlepacket():**
+  - Conducted tests to ensure that if there is an error, the packet is dropped.
+  - Handled ARP requests and replies, ICMP messages, and responses.
+  - Implemented functionality for forwarding packets based on destination IP.
+  - Decremented TTL and sent ARP requests, waiting for and handling ARP responses.
+  - Used ICMP error codes to indicate errors or send host unreachable messages.
+
+## Testing and Debugging
+- Employed print functions for testing purposes.
+- Resolved challenges related to linked list traversal and implementation details.
+
+## Additional Features
+- Implemented traceroute functionality to visualize the path of transmitted packets.
+- Utilized the ARP cache and the `lookup()` function to enhance functionality.
+- Extended packet transmission protocol to handle a multi-router topology.
+
+## Code Structure
+- Maintained a modular structure with a defined structure outside of `sr_arpcache.c` and `sr_router.c`.
+- Ensured proper memory management for headers, emphasizing their role in communication.
+
+## Conclusion
+The project builds upon a previous implementation, extending the router's capabilities to handle more complex network topologies. The modifications focused on ARP handling, ICMP functionality, and overall packet transmission. Thorough testing, debugging, and additional features contribute to a robust and functional router implementation.
